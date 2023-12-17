@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:maindb
+    flyway:
+      enabled: true
+  output:
+    ansi:
+      enabled: always
+app:
+  version: 0.0.1
