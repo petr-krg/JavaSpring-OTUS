@@ -1,0 +1,8 @@
+# Добавить сюда своих вопросов. Эту строку надо пропустить при настройке CsvToBean (withSkipLines)
+Есть ли жизнь на Марсе?;Это науке пока не известно%true|Конечно. Красные (НЛО) это с Марса. А зеленые (НЛО) с Венеры%false|Точно нет%false
+Как нужно загружать ресурс из jar в Java?;ClassLoader#geResourceAsStream или ClassPathResource#getInputStream%true|ClassLoader#geResource#getFile + FileReader%false|Wingardium Leviosa%false
+Какой предпочтительный способ реакции на исключения?;@SneakyThrow%false|e.printStackTrace()%false|Проброс дальше с предварительным оборачиванием в бизнес-исключение (например, QuestionReadException)%true|Игнорирование исключения%false
+В "Секретных материалах", какой плакат можно увидеть на стене в офисе Малдера?;Доверяй всем%false|Ищи истину%false|Я хочу верить%true|Среди нас инопланетяне%false
+Какой из следующих типов данных не является примитивным типом в Java?;int%false|String%true|float%false|char%false
+Что обеспечивает ключевое слово 'volatile' в Java?;Иммутабельность класса%false|Потокобезопасность для метода%false|Видимость переменной между потоками%true
+Какой метод необходимо реализовать при использовании интерфейса Runnable?;execute()%false|perform()%false|start()%false|run()%true
