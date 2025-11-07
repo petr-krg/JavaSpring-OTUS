@@ -1,0 +1,9 @@
+${AnsiColor.BRIGHT_GREEN}  _   _ _    _  _____  _____        _________________ _____ _   _ _____      ______  _____  _____ _____
+${AnsiColor.BRIGHT_GREEN} | | | | |  | ||  _  ||____ |      /  ___| ___ \ ___ \_   _| \ | |  __ \     | ___ \|  _  ||  _  |_   _|
+${AnsiColor.BRIGHT_GREEN} | |_| | |  | || |/' |    / /______\ `--.| |_/ / |_/ / | | |  \| | |  \/_____| |_/ /| | | || | | | | |
+${AnsiColor.BRIGHT_GREEN} |  _  | |/\| ||  /| |    \ \______|`--. \  __/|    /  | | | . ` | | _|______| ___ \| | | || | | | | |
+${AnsiColor.BRIGHT_GREEN} | | | \  /\  /\ |_/ /.___/ /      /\__/ / |   | |\ \ _| |_| |\  | |_\ \     | |_/ /\ \_/ /\ \_/ / | |
+${AnsiColor.BRIGHT_GREEN} \_| |_/\/  \/  \___/ \____/       \____/\_|   \_| \_|\___/\_| \_/\____/     \____/  \___/  \___/  \_/
+${AnsiColor.BRIGHT_YELLOW} :: Spring Boot ::                                                                             (v${spring-boot.version})
+${AnsiColor.BRIGHT_CYAN} :: hw03-spring-boot ::                                                                        (v${app.version})
+${AnsiColor.DEFAULT}
