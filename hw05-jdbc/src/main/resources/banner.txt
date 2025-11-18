@@ -1,0 +1,8 @@
+${AnsiColor.BRIGHT_GREEN}  _     _      ____  ____        ____  ____  ____  _  _      _____          _  ____  ____  ____
+${AnsiColor.BRIGHT_GREEN} / \ /|/ \  /|/  _ \/ ___\      / ___\/  __\/  __\/ \/ \  /|/  __/         / |/  _ \/  __\/   _\
+${AnsiColor.BRIGHT_GREEN} | |_||| |  ||| / \||    \_____ |    \|  \/||  \/|| || |\ ||| |  ______    | || | \|| | //|  /
+${AnsiColor.BRIGHT_GREEN} | | ||| |/\||| \_/|\___ |\____\\___ ||  __/|    /| || | \||| |_//\____\/\_| || |_/|| |_\\|  \__
+${AnsiColor.BRIGHT_GREEN} \_/ \|\_/  \|\____/\____/      \____/\_/   \_/\_\\_/\_/  \|\____\      \____/\____/\____/\____/
+${AnsiColor.BRIGHT_YELLOW} :: Spring Boot ::                                                                       (v${spring-boot.version})
+${AnsiColor.BRIGHT_CYAN} :: hw05-spring-jdbc ::                                                                  (v${app.version})
+${AnsiColor.DEFAULT}
