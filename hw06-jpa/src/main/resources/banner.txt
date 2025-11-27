@@ -1,0 +1,12 @@
+${AnsiColor.BRIGHT_GREEN}  o         o    o              o        o__ __o          o__ __o                      __o__   o__ __o        o
+${AnsiColor.BRIGHT_GREEN} <|>       <|>  <|>            <|>      /v     v\        /v     v\                       |    <|     v\      <|>
+${AnsiColor.BRIGHT_GREEN} < >       < >  / \            / \     />       <\      />       <\                     / \   / \     <\     / \
+${AnsiColor.BRIGHT_GREEN}  |         |   \o/            \o/   o/           \o   <o>                              \o/   \o/     o/   o/   \o
+${AnsiColor.BRIGHT_GREEN}  o__/_ _\__o    |              |   <|             |>   |__  _\__o__  _\__o__            |     |__  _<|/  <|__ __|>
+${AnsiColor.BRIGHT_GREEN}  |         |   < >            < >   \\           //    |         \        \            < >    |          /       \
+${AnsiColor.BRIGHT_GREEN} <o>       <o>   \o    o/\o    o/      \         /      \         /             \        |    <o>       o/         \o
+${AnsiColor.BRIGHT_GREEN}  |         |     v\  /v  v\  /v        o       o        o       o               o       o     |       /v           v\
+${AnsiColor.BRIGHT_GREEN} / \       / \     <\/>    <\/>         <\__ __/>        <\__ __/>               <\__ __/>    / \     />             <\
+${AnsiColor.BRIGHT_YELLOW} :: Spring Boot      ::                                                                                         (v${spring-boot.version})
+${AnsiColor.BRIGHT_CYAN} :: hw06-spring-jpql ::                                                                                         (v${app.version})
+${AnsiColor.DEFAULT}
