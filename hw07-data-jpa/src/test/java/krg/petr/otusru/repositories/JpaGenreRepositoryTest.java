@@ -5,7 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
 
 import java.util.List;
 import java.util.Set;
@@ -37,7 +36,7 @@ public class JpaGenreRepositoryTest {
         var expectedGenres = getDbGenres();
         var ids = Set.of(1L, 3L, 5L);
 
-        var actualGenres = genreRepository.findAllByIds(ids);
+        var actualGenres = genreRepository.findByIdInOrderByName(ids);
 
         assertThat(actualGenres)
                 .hasSize(ids.size())
@@ -51,7 +50,7 @@ public class JpaGenreRepositoryTest {
     @DisplayName("должен возвращать пустой список, если набор идентификаторов пуст")
     @Test
     void shouldReturnEmptyListIfIdsEmpty() {
-        var actualGenres = genreRepository.findAllByIds(Set.of());
+        var actualGenres = genreRepository.findByIdInOrderByName(Set.of());
         assertThat(actualGenres).isEmpty();
     }
 

@@ -1,5 +1,6 @@
 package krg.petr.otusru.services;
 
+import krg.petr.otusru.converters.CommentConverter;
 import krg.petr.otusru.exceptions.EntityNotFoundException;
 import krg.petr.otusru.models.Book;
 import krg.petr.otusru.models.Comment;
@@ -9,8 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,36 +20,46 @@ public class CommentServiceImpl implements CommentService {
 
     private final BookRepository bookRepository;
 
+    private final CommentConverter commentConverter;
+
     @Override
     @Transactional(readOnly = true)
-    public List<Comment> findAll() {
-        return commentRepository.findAll();
+    public String findAll() {
+        return commentRepository.findAll().stream()
+                .map(commentConverter::commentToString)
+                .collect(Collectors.joining("," + System.lineSeparator()));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Comment> findById(long id) {
-        return commentRepository.findById(id);
+    public String findById(long id) {
+        return commentRepository.findById(id)
+                .map(commentConverter::commentToString)
+                .orElse("Comment with id %d not found".formatted(id));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Comment> findByBookId(long bookId) {
-        return commentRepository.findByBookId(bookId);
+    public String findByBookId(long bookId) {
+        var comments = commentRepository.findByBookId(bookId);
+
+        if (comments.isEmpty()) {
+            return "No comments for book with id %d".formatted(bookId);
+        }
+
+        return comments.stream()
+                .map(commentConverter::commentToString)
+                .collect(Collectors.joining("," + System.lineSeparator()));
     }
 
     @Override
     @Transactional
-    public Comment create(long bookId, String text) {
-        Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new EntityNotFoundException("Book with id %d not found".formatted(bookId)));
-        Comment comment = new Comment(0, text, book);
-        return commentRepository.save(comment);
+    public String merge(long id, long bookId, String text) {
+        Comment comment = save(id, bookId, text);
+        return commentConverter.commentToString(comment);
     }
 
-    @Override
-    @Transactional
-    public Comment update(long id, long bookId, String text) {
+    private Comment save(long id, long bookId, String text) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new EntityNotFoundException("Book with id %d not found".formatted(bookId)));
         Comment comment = new Comment(id, text, book);

@@ -11,9 +11,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import krg.petr.otusru.models.Author;
 import krg.petr.otusru.models.Book;
 import krg.petr.otusru.models.Genre;
-import org.springframework.context.annotation.Import;
-
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,7 +42,7 @@ class JpaBookRepositoryTest {
     @ParameterizedTest
     @MethodSource("getExpectedBooks")
     void shouldReturnCorrectBookById(Book expectedBook) {
-        var actualBook = bookRepository.findById(expectedBook.getId());
+        var actualBook = Optional.ofNullable(em.find(Book.class, expectedBook.getId()));
 
         assertThat(actualBook).isPresent()
                 .get()
@@ -63,7 +62,6 @@ class JpaBookRepositoryTest {
     @DisplayName("должен сохранять новую книгу")
     @Test
     void shouldSaveNewBook() {
-        // Берём управляемые сущности из БД
         Author author = em.find(Author.class, 1L);
         Genre genre1 = em.find(Genre.class, 1L);
         Genre genre2 = em.find(Genre.class, 3L);
@@ -80,7 +78,10 @@ class JpaBookRepositoryTest {
         assertThat(returnedBook).isNotNull();
         assertThat(returnedBook.getId()).isGreaterThan(0);
 
-        var bookFromDbOpt = bookRepository.findById(returnedBook.getId());
+        em.flush();
+        em.clear();
+
+        var bookFromDbOpt = Optional.ofNullable(em.find(Book.class, expectedBook.getId()));
         assertThat(bookFromDbOpt).isPresent();
         var bookFromDb = bookFromDbOpt.get();
 
@@ -94,7 +95,7 @@ class JpaBookRepositoryTest {
     @DisplayName("должен сохранять измененную книгу")
     @Test
     void shouldSaveUpdatedBook() {
-        var existingBook = bookRepository.findById(1L).orElseThrow();
+        var existingBook = em.find(Book.class, 1L);
 
         Author newAuthor = em.find(Author.class, 3L);
         Genre genre4 = em.find(Genre.class, 5L);
@@ -112,7 +113,7 @@ class JpaBookRepositoryTest {
         assertThat(returnedBook).isNotNull();
         assertThat(returnedBook.getId()).isEqualTo(existingBook.getId());
 
-        var bookFromDbOpt = bookRepository.findById(existingBook.getId());
+        var bookFromDbOpt = Optional.ofNullable(em.find(Book.class, existingBook.getId()));
         assertThat(bookFromDbOpt).isPresent();
         var bookFromDb = bookFromDbOpt.get();
 
@@ -126,9 +127,11 @@ class JpaBookRepositoryTest {
     @DisplayName("должен удалять книгу по id ")
     @Test
     void shouldDeleteBook() {
-        assertThat(bookRepository.findById(1L)).isPresent();
+        assertThat(em.find(Book.class, 1L)).isNotNull();
         bookRepository.deleteById(1L);
-        assertThat(bookRepository.findById(1L)).isEmpty();
+        em.flush();
+        em.clear();
+        assertThat(em.find(Book.class, 1L)).isNull();
     }
 
     private static List<Book> getExpectedBooks() {

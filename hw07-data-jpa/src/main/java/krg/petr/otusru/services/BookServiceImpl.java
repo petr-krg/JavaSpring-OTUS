@@ -1,5 +1,6 @@
 package krg.petr.otusru.services;
 
+import krg.petr.otusru.converters.BookConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import krg.petr.otusru.exceptions.EntityNotFoundException;
@@ -10,9 +11,8 @@ import krg.petr.otusru.repositories.GenreRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -24,28 +24,29 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
 
+    private final BookConverter bookConverter;
+
     @Override
     @Transactional(readOnly = true)
-    public Optional<Book> findById(long id) {
-        return bookRepository.findById(id);
+    public String findById(long id) {
+        return bookRepository.findById(id)
+                .map(bookConverter::bookToString)
+                .orElse("Book with id %d not found".formatted(id));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Book> findAll() {
-        return bookRepository.findAll();
+    public String findAll() {
+        return bookRepository.findAll().stream()
+                .map(bookConverter::bookToString)
+                .collect(Collectors.joining("," + System.lineSeparator()));
     }
 
     @Override
     @Transactional
-    public Book insert(String title, long authorId, Set<Long> genresIds) {
-        return save(0, title, authorId, genresIds);
-    }
-
-    @Override
-    @Transactional
-    public Book update(long id, String title, long authorId, Set<Long> genresIds) {
-        return save(id, title, authorId, genresIds);
+    public String merge(long id, String title, long authorId, Set<Long> genresIds) {
+        Book book = save(id, title, authorId, genresIds);
+        return bookConverter.bookToString(book);
     }
 
     @Override
@@ -61,7 +62,7 @@ public class BookServiceImpl implements BookService {
 
         var author = authorRepository.findById(authorId)
                 .orElseThrow(() -> new EntityNotFoundException("Author with id %d not found".formatted(authorId)));
-        var genres = genreRepository.findAllByIds(genresIds);
+        var genres = genreRepository.findByIdInOrderByName(genresIds);
         if (CollectionUtils.isEmpty(genres) || genresIds.size() != genres.size()) {
             throw new EntityNotFoundException("One or all genres with ids %s not found".formatted(genresIds));
         }

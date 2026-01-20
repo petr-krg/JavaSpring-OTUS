@@ -10,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 
 import java.util.List;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
@@ -47,10 +49,7 @@ public class JpaCommentRepositoryTest {
     @DisplayName("должен загружать комментарий по id")
     @Test
     void shouldReturnCommentById() {
-        var commentOpt = commentRepository.findById(1L);
-
-        assertThat(commentOpt).isPresent();
-        var comment = commentOpt.get();
+        var comment = entityManager.find(Comment.class, 1L);
 
         assertThat(comment.getId()).isEqualTo(1L);
         assertThat(comment.getText()).isEqualTo("Comment_1 for Book_1");
@@ -83,7 +82,7 @@ public class JpaCommentRepositoryTest {
         Comment saved = commentRepository.save(newComment);
 
         assertThat(saved.getId()).isGreaterThan(0);
-        var fromDbOpt = commentRepository.findById(saved.getId());
+        var fromDbOpt = Optional.ofNullable(entityManager.find(Comment.class, saved.getId()));
 
         assertThat(fromDbOpt).isPresent();
         var fromDb = fromDbOpt.get();
@@ -95,8 +94,10 @@ public class JpaCommentRepositoryTest {
     @DisplayName("должен удалять комментарий по id")
     @Test
     void shouldDeleteCommentById() {
-        assertThat(commentRepository.findById(1L)).isPresent();
+        assertThat(entityManager.find(Comment.class, 1L)).isNotNull();
         commentRepository.deleteById(1L);
-        assertThat(commentRepository.findById(1L)).isEmpty();
+        entityManager.flush();
+        entityManager.clear();
+        assertThat(entityManager.find(Comment.class, 1L)).isNull();
     }
 }
