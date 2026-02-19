@@ -12,12 +12,6 @@ public class CommentCommands {
 
     private final CommentService commentService;
 
-    // acm
-    @ShellMethod(value = "Find all comments", key = "acm")
-    public String findAllComments() {
-        return commentService.findAll();
-    }
-
     // cmid 1
     @ShellMethod(value = "Find comment by id", key = "cmid")
     public String findCommentById(long id) {

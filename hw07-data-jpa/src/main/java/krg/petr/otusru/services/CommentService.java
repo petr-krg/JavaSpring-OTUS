@@ -2,8 +2,6 @@ package krg.petr.otusru.services;
 
 public interface CommentService {
 
-    String findAll();
-
     String findById(long id);
 
     String findByBookId(long bookId);

@@ -24,14 +24,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(readOnly = true)
-    public String findAll() {
-        return commentRepository.findAll().stream()
-                .map(commentConverter::commentToString)
-                .collect(Collectors.joining("," + System.lineSeparator()));
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public String findById(long id) {
         return commentRepository.findById(id)
                 .map(commentConverter::commentToString)
